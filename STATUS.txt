@@ -1,0 +1,40 @@
+═══════════════════════════════════════════════════════════════
+  CleanCloth Export - SETUP STATUS
+═══════════════════════════════════════════════════════════════
+
+✅ COMPLETE:
+  - Configuration files (package.json, vite.config.ts, tsconfig, etc.)
+  - Build tooling (Vite, TypeScript, Tailwind, PostCSS)
+  - Entry files (index.html, main.tsx, App.tsx)
+  - Global styles (src/styles/globals.css)
+  - Copy scripts (COPY-FILES.sh, COPY-FILES.ps1)
+
+⚠️  ACTION REQUIRED:
+  - Copy source files from /components and /pages folders
+
+═══════════════════════════════════════════════════════════════
+  NEXT STEP: Run the copy script
+═══════════════════════════════════════════════════════════════
+
+Mac/Linux:
+  chmod +x cleancloth-export/COPY-FILES.sh
+  ./cleancloth-export/COPY-FILES.sh
+
+Windows:
+  .\cleancloth-export\COPY-FILES.ps1
+
+OR manually copy:
+  /components/* → /cleancloth-export/src/components/
+  /pages/*      → /cleancloth-export/src/pages/
+
+═══════════════════════════════════════════════════════════════
+  AFTER COPYING FILES:
+═══════════════════════════════════════════════════════════════
+
+  cd cleancloth-export
+  npm install
+  npm run dev
+
+═══════════════════════════════════════════════════════════════
+
+See INSTALLATION-GUIDE.md for detailed instructions.
