@@ -4,20 +4,14 @@ const API_VERSION = "v19";
 const BASE_URL = `https://googleads.googleapis.com/${API_VERSION}`;
 
 export interface GoogleAdsClient {
-  /** Execute a GAQL query against a customer account. */
+  /** Run a GAQL query. */
   search(customerId: string, query: string): Promise<unknown[]>;
-  /** List all customer accounts accessible with the current credentials. */
+  /** List all accessible customer accounts. */
   listAccessibleCustomers(): Promise<string[]>;
-  /** Get a single resource by resource name. */
-  getResource(resourceName: string): Promise<unknown>;
-  /** Mutate campaigns (create, update, pause, resume, remove). */
-  mutateCampaigns(customerId: string, operations: unknown[]): Promise<unknown>;
-  /** Mutate ad groups. */
-  mutateAdGroups(customerId: string, operations: unknown[]): Promise<unknown>;
-  /** Mutate ads. */
-  mutateAds(customerId: string, operations: unknown[]): Promise<unknown>;
-  /** Mutate keywords (ad group criteria). */
-  mutateKeywords(customerId: string, operations: unknown[]): Promise<unknown>;
+  /** Generic mutate — works for any resource endpoint. */
+  mutate(customerId: string, endpoint: string, body: Record<string, unknown>): Promise<unknown>;
+  /** Generic GET for any resource path. */
+  get(path: string): Promise<unknown>;
 }
 
 export function createGoogleAdsClient(creds: GoogleAdsCredentials): GoogleAdsClient {
@@ -27,11 +21,11 @@ export function createGoogleAdsClient(creds: GoogleAdsCredentials): GoogleAdsCli
   async function getToken(): Promise<string> {
     if (cachedToken && Date.now() < tokenExpiry) return cachedToken;
     cachedToken = await getAccessToken(creds);
-    tokenExpiry = Date.now() + 55 * 60 * 1000; // refresh 5 min before 1h expiry
+    tokenExpiry = Date.now() + 55 * 60 * 1000;
     return cachedToken;
   }
 
-  function headers(token: string): Record<string, string> {
+  function makeHeaders(token: string): Record<string, string> {
     const h: Record<string, string> = {
       Authorization: `Bearer ${token}`,
       "developer-token": creds.developerToken,
@@ -44,108 +38,44 @@ export function createGoogleAdsClient(creds: GoogleAdsCredentials): GoogleAdsCli
   }
 
   return {
-    async search(customerId: string, query: string): Promise<unknown[]> {
+    async search(customerId, query) {
       const token = await getToken();
-      const url = `${BASE_URL}/customers/${customerId}/googleAds:searchStream`;
-      const resp = await fetch(url, {
-        method: "POST",
-        headers: headers(token),
-        body: JSON.stringify({ query }),
-      });
-      if (!resp.ok) {
-        const body = await resp.text();
-        throw new Error(`Google Ads search failed (${resp.status}): ${body}`);
-      }
+      const resp = await fetch(
+        `${BASE_URL}/customers/${customerId}/googleAds:searchStream`,
+        { method: "POST", headers: makeHeaders(token), body: JSON.stringify({ query }) }
+      );
+      if (!resp.ok) throw new Error(`search failed (${resp.status}): ${await resp.text()}`);
       const data = (await resp.json()) as { results?: unknown[] }[];
-      return data.flatMap((batch) => batch.results ?? []);
+      return data.flatMap((b) => b.results ?? []);
     },
 
-    async listAccessibleCustomers(): Promise<string[]> {
+    async listAccessibleCustomers() {
       const token = await getToken();
-      const url = `${BASE_URL}/customers:listAccessibleCustomers`;
-      const resp = await fetch(url, {
-        method: "GET",
-        headers: headers(token),
-      });
-      if (!resp.ok) {
-        const body = await resp.text();
-        throw new Error(`listAccessibleCustomers failed (${resp.status}): ${body}`);
-      }
-      const data = (await resp.json()) as { resourceNames: string[] };
-      return data.resourceNames;
+      const resp = await fetch(
+        `${BASE_URL}/customers:listAccessibleCustomers`,
+        { method: "GET", headers: makeHeaders(token) }
+      );
+      if (!resp.ok) throw new Error(`listAccessibleCustomers failed (${resp.status}): ${await resp.text()}`);
+      return ((await resp.json()) as { resourceNames: string[] }).resourceNames;
     },
 
-    async getResource(resourceName: string): Promise<unknown> {
+    async mutate(customerId, endpoint, body) {
       const token = await getToken();
-      const url = `${BASE_URL}/${resourceName}`;
-      const resp = await fetch(url, {
-        method: "GET",
-        headers: headers(token),
-      });
-      if (!resp.ok) {
-        const body = await resp.text();
-        throw new Error(`getResource failed (${resp.status}): ${body}`);
-      }
+      const resp = await fetch(
+        `${BASE_URL}/customers/${customerId}/${endpoint}`,
+        { method: "POST", headers: makeHeaders(token), body: JSON.stringify(body) }
+      );
+      if (!resp.ok) throw new Error(`mutate ${endpoint} failed (${resp.status}): ${await resp.text()}`);
       return resp.json();
     },
 
-    async mutateCampaigns(customerId: string, operations: unknown[]): Promise<unknown> {
+    async get(path) {
       const token = await getToken();
-      const url = `${BASE_URL}/customers/${customerId}/campaigns:mutate`;
-      const resp = await fetch(url, {
-        method: "POST",
-        headers: headers(token),
-        body: JSON.stringify({ operations }),
-      });
-      if (!resp.ok) {
-        const body = await resp.text();
-        throw new Error(`mutateCampaigns failed (${resp.status}): ${body}`);
-      }
-      return resp.json();
-    },
-
-    async mutateAdGroups(customerId: string, operations: unknown[]): Promise<unknown> {
-      const token = await getToken();
-      const url = `${BASE_URL}/customers/${customerId}/adGroups:mutate`;
-      const resp = await fetch(url, {
-        method: "POST",
-        headers: headers(token),
-        body: JSON.stringify({ operations }),
-      });
-      if (!resp.ok) {
-        const body = await resp.text();
-        throw new Error(`mutateAdGroups failed (${resp.status}): ${body}`);
-      }
-      return resp.json();
-    },
-
-    async mutateAds(customerId: string, operations: unknown[]): Promise<unknown> {
-      const token = await getToken();
-      const url = `${BASE_URL}/customers/${customerId}/adGroupAds:mutate`;
-      const resp = await fetch(url, {
-        method: "POST",
-        headers: headers(token),
-        body: JSON.stringify({ operations }),
-      });
-      if (!resp.ok) {
-        const body = await resp.text();
-        throw new Error(`mutateAds failed (${resp.status}): ${body}`);
-      }
-      return resp.json();
-    },
-
-    async mutateKeywords(customerId: string, operations: unknown[]): Promise<unknown> {
-      const token = await getToken();
-      const url = `${BASE_URL}/customers/${customerId}/adGroupCriteria:mutate`;
-      const resp = await fetch(url, {
-        method: "POST",
-        headers: headers(token),
-        body: JSON.stringify({ operations }),
-      });
-      if (!resp.ok) {
-        const body = await resp.text();
-        throw new Error(`mutateKeywords failed (${resp.status}): ${body}`);
-      }
+      const resp = await fetch(
+        `${BASE_URL}/${path}`,
+        { method: "GET", headers: makeHeaders(token) }
+      );
+      if (!resp.ok) throw new Error(`GET ${path} failed (${resp.status}): ${await resp.text()}`);
       return resp.json();
     },
   };
