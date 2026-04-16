@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { server, ads, cid, ok, optCid } from "./index.js";
+import { server, ads, cid, ok, optCid } from "./shared.js";
 
 // ===================== LOCATION TARGETING =====================
 

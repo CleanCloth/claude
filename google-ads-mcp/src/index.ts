@@ -1,29 +1,8 @@
 #!/usr/bin/env node
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { loadCredentials } from "./auth.js";
-import { createGoogleAdsClient } from "./google-ads-client.js";
-
-const creds = loadCredentials();
-const ads = createGoogleAdsClient(creds);
-const defaultCustomerId = creds.customerId;
-
-function cid(provided?: string): string {
-  const id = provided ?? defaultCustomerId;
-  if (!id) throw new Error("customer_id required. Pass it or set GOOGLE_ADS_CUSTOMER_ID.");
-  return id.replace(/-/g, "");
-}
-
-function ok(data: unknown) {
-  return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
-}
-
-const server = new McpServer({ name: "google-ads-mcp", version: "2.0.0" });
-
-const optCid = z.string().optional().describe("Google Ads customer ID (10 digits, no hyphens).");
-const dateRange = z.enum(["TODAY","YESTERDAY","LAST_7_DAYS","LAST_30_DAYS","THIS_MONTH","LAST_MONTH","LAST_90_DAYS"]).default("LAST_30_DAYS");
+import { server, ads, cid, ok, optCid } from "./shared.js";
 
 // ===================== ACCOUNT =====================
 
@@ -160,8 +139,6 @@ server.tool("remove_campaign", "Permanently remove a campaign.", {
     operations: [{ remove: `customers/${c}/campaigns/${campaign_id}` }],
   }));
 });
-
-export { server, ads, cid, ok, optCid, dateRange };
 
 // ── Load all tool modules ──────────────────────────────────────────────────
 import "./tools-adgroups.js";
