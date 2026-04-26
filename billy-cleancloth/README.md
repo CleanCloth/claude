@@ -15,36 +15,49 @@ cp .env.example .env
 
 ## Running
 
-Commands are invoked through `pnpm billy <command>`:
+Commands are invoked through `pnpm billy <command>`. Exit code is `0` on
+success, `1` on any error.
+
+### `ping`
 
 ```sh
 pnpm billy ping
 ```
 
-Expected output on success:
+Sanity check — fetches `/v2/organization` and prints name, CVR, currency.
 
-```
-✓ Billy API reachable
-  Organization: CleanCloth Rengøring
-  CVR:          xxxxxxxx
-  Currency:     DKK
-  Country:      DK
-  Locale:       da_DK
-  Org ID:       <uuid>
+### `discover`
+
+```sh
+pnpm billy discover
 ```
 
-Exit code is `0` on success, `1` on any error.
+Probes every relevant Billy resource (accounts, taxRates, products, contacts,
+bankAccounts, daybooks, plus 5-row samples of invoices/bills/bankPayments)
+and writes the raw JSON to `data/discovery.json`. Endpoint failures are
+recorded per-probe; the run never aborts on a single failure. Share that
+file back so we can hard-code account IDs and VAT rulesets for later
+automations.
+
+### `invoices:list`
+
+```sh
+pnpm billy invoices:list --from 2025-01-01 --to 2025-04-30 --unpaid
+```
+
+Filters: `--from`, `--to` (entryDate range), `--paid`, `--unpaid`, `--state`,
+`--page`, `--page-size`. Output is a `da-DK` formatted table with invoice no,
+date, contact, amount, balance, paid status, and state.
 
 ## Ground rules baked in
 
 - Every mutation (POST/PUT/DELETE) is appended to `logs/mutations.log` as JSONL.
-- Write commands will default to dry-run once they exist; `--execute` required
-  to actually hit the API.
-- Amounts are integers (øre); `src/util/money.ts` handles conversion + `da-DK`
-  formatting.
-- `.env` and `logs/` are gitignored.
+- Write commands default to dry-run; `--execute` required to actually hit the API.
+- `da-DK` locale for display, DKK currency, ISO dates in storage.
+- `.env`, `logs/`, and `data/` are gitignored.
 
 ## Status
 
-MVP step 1/5: scaffold + `ping`. Next steps (`discover`, resources, `invoices:list`)
-land after `ping` is confirmed working.
+MVP shipped: `ping`, `discover`, `invoices:list`. Next batch (bank reconciliation,
+VAT period summary, BookingKoala sync) is gated on reviewing `data/discovery.json`
+output to lock in the right account IDs.

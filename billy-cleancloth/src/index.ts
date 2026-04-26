@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import "dotenv/config";
+import { discover } from "./commands/discover.js";
+import { invoicesList } from "./commands/invoices-list.js";
 import { ping } from "./commands/ping.js";
 
 const HELP = `billy — CleanCloth accounting automation
@@ -9,6 +11,8 @@ Usage:
 
 Commands:
   ping              Verify the API token by fetching the organization.
+  discover          Probe Billy resources and dump to data/discovery.json.
+  invoices:list     List invoices (use --help for filters).
   help              Show this message.
 
 Environment:
@@ -17,10 +21,16 @@ Environment:
 
 async function main(): Promise<number> {
   const command = process.argv[2] ?? "help";
+  const args = process.argv.slice(3);
 
   if (command === "help" || command === "--help" || command === "-h") {
     console.log(HELP);
     return 0;
+  }
+
+  // Subcommand help shouldn't require a token.
+  if (args.includes("--help") || args.includes("-h")) {
+    return runCommand(command, "", args);
   }
 
   const token = process.env["BILLY_TOKEN"];
@@ -29,13 +39,21 @@ async function main(): Promise<number> {
     return 1;
   }
 
+  return runCommand(command, token, args);
+}
+
+function runCommand(command: string, token: string, args: string[]): Promise<number> {
   switch (command) {
     case "ping":
       return ping(token);
+    case "discover":
+      return discover(token);
+    case "invoices:list":
+      return invoicesList(token, args);
     default:
       console.error(`Unknown command: ${command}`);
       console.error(HELP);
-      return 1;
+      return Promise.resolve(1);
   }
 }
 
