@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1040" viewBox="0 0 1480 1040" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,4 L0,8 z" fill="#5b6470"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,4 L0,8 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1480" height="1040" fill="#f4f6f9"/>
+
+  <!-- Title -->
+  <text x="50" y="58" font-size="34" font-weight="700" fill="#0f1722">How your Facebook ad is set up</text>
+  <text x="50" y="92" font-size="19" fill="#5b6470">CleanCloth ApS &#8226; Flytterengøring campaign &#8226; Meta Pixel 3666457663369172</text>
+
+  <!-- ===================== STRUCTURE (left) ===================== -->
+  <text x="50" y="150" font-size="16" font-weight="700" fill="#1877F2" letter-spacing="1">THE 3 LEVELS OF A META AD</text>
+
+  <!-- Campaign -->
+  <rect x="50" y="170" width="640" height="150" rx="14" fill="#ffffff" stroke="#1877F2" stroke-width="2.5"/>
+  <rect x="50" y="170" width="640" height="40" rx="14" fill="#1877F2"/>
+  <rect x="50" y="190" width="640" height="20" fill="#1877F2"/>
+  <text x="72" y="197" font-size="18" font-weight="700" fill="#ffffff">1 &#8226; CAMPAIGN</text>
+  <text x="560" y="197" font-size="14" fill="#cfe1ff">the "why"</text>
+  <text x="72" y="244" font-size="16" fill="#0f1722" font-weight="600">Objective: what Facebook optimizes for</text>
+  <text x="72" y="270" font-size="15" fill="#5b6470">Now: Traffic (clicks) &#8212; paused</text>
+  <text x="72" y="294" font-size="15" fill="#16a34a" font-weight="600">Goal: Leads (switch after pixel collects ~15-30 bookings)</text>
+
+  <!-- connector -->
+  <line x1="370" y1="320" x2="370" y2="352" stroke="#5b6470" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Ad Set -->
+  <rect x="50" y="354" width="640" height="200" rx="14" fill="#ffffff" stroke="#1877F2" stroke-width="2.5"/>
+  <rect x="50" y="354" width="640" height="40" rx="14" fill="#1877F2"/>
+  <rect x="50" y="374" width="640" height="20" fill="#1877F2"/>
+  <text x="72" y="381" font-size="18" font-weight="700" fill="#ffffff">2 &#8226; AD SET</text>
+  <text x="545" y="381" font-size="14" fill="#cfe1ff">the "who / where"</text>
+  <text x="72" y="424" font-size="15" fill="#0f1722">&#8226;  <tspan font-weight="600">Budget</tspan> &amp; schedule (daily kr. / dates)</text>
+  <text x="72" y="452" font-size="15" fill="#0f1722">&#8226;  <tspan font-weight="600">Audience</tspan>: location (Aarhus + radius), age, interests</text>
+  <text x="72" y="480" font-size="15" fill="#0f1722">&#8226;  <tspan font-weight="600">Placements</tspan>: Feed, Stories, Reels, Marketplace</text>
+  <text x="72" y="508" font-size="15" fill="#0f1722">&#8226;  <tspan font-weight="600">Optimization &amp; delivery</tspan>: the conversion event</text>
+  <text x="92" y="532" font-size="15" fill="#16a34a" font-weight="600">&#8594; set to "Lead" once tracking is verified</text>
+
+  <!-- connector -->
+  <line x1="370" y1="554" x2="370" y2="586" stroke="#5b6470" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Ad -->
+  <rect x="50" y="588" width="640" height="200" rx="14" fill="#ffffff" stroke="#1877F2" stroke-width="2.5"/>
+  <rect x="50" y="588" width="640" height="40" rx="14" fill="#1877F2"/>
+  <rect x="50" y="608" width="640" height="20" fill="#1877F2"/>
+  <text x="72" y="615" font-size="18" font-weight="700" fill="#ffffff">3 &#8226; AD</text>
+  <text x="560" y="615" font-size="14" fill="#cfe1ff">the "what"</text>
+  <text x="72" y="658" font-size="15" fill="#0f1722">&#8226;  <tspan font-weight="600">Creative</tspan>: image or video</text>
+  <text x="72" y="686" font-size="15" fill="#0f1722">&#8226;  <tspan font-weight="600">Primary text</tspan> + <tspan font-weight="600">headline</tspan></text>
+  <text x="72" y="714" font-size="15" fill="#0f1722">&#8226;  <tspan font-weight="600">CTA button</tspan>: "Book nu"</text>
+  <text x="72" y="742" font-size="15" fill="#0f1722">&#8226;  <tspan font-weight="600">Destination link</tspan> &#8594; cleancloth.dk flytterengøring</text>
+  <text x="72" y="768" font-size="14" fill="#5b6470" font-style="italic">This is the page where the Meta Pixel starts tracking.</text>
+
+  <!-- ===================== TRACKING FLOW (right) ===================== -->
+  <text x="760" y="150" font-size="16" font-weight="700" fill="#16a34a" letter-spacing="1">HOW A BOOKING GETS BACK TO FACEBOOK</text>
+
+  <!-- step 1 -->
+  <rect x="760" y="170" width="670" height="92" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="800" cy="216" r="20" fill="#1877F2"/>
+  <text x="800" y="223" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+  <text x="838" y="206" font-size="16" font-weight="700" fill="#0f1722">Person sees the ad and clicks "Book nu"</text>
+  <text x="838" y="232" font-size="14" fill="#5b6470">On Facebook / Instagram feed, story or reel</text>
+  <text x="838" y="252" font-size="14" fill="#5b6470">&#8594; lands on cleancloth.dk</text>
+
+  <line x1="1095" y1="262" x2="1095" y2="286" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- step 2 -->
+  <rect x="760" y="288" width="670" height="100" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="800" cy="338" r="20" fill="#7c3aed"/>
+  <text x="800" y="345" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="838" y="324" font-size="16" font-weight="700" fill="#0f1722">Meta Pixel fires "PageView"</text>
+  <text x="838" y="350" font-size="14" fill="#5b6470">GTM tag: Meta Pixel - Base &#8226; fires on All Pages</text>
+  <text x="838" y="372" font-size="14" fill="#5b6470">Facebook now knows this visitor came from the ad</text>
+
+  <line x1="1095" y1="388" x2="1095" y2="412" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- step 3 -->
+  <rect x="760" y="414" width="670" height="100" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="800" cy="464" r="20" fill="#0f1722"/>
+  <text x="800" y="471" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+  <text x="838" y="450" font-size="16" font-weight="700" fill="#0f1722">Visitor completes a booking</text>
+  <text x="838" y="476" font-size="14" fill="#5b6470">Reaches the BookingKoala thank-you page</text>
+  <text x="838" y="498" font-size="14" fill="#5b6470">cleancloth.bookingkoala.com/thank-you-page</text>
+
+  <line x1="1095" y1="514" x2="1095" y2="538" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- step 4 -->
+  <rect x="760" y="540" width="670" height="100" rx="12" fill="#ecfdf3" stroke="#16a34a" stroke-width="2.5"/>
+  <circle cx="800" cy="590" r="20" fill="#16a34a"/>
+  <text x="800" y="597" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+  <text x="838" y="576" font-size="16" font-weight="700" fill="#0f1722">Meta Pixel fires "Lead"</text>
+  <text x="838" y="602" font-size="14" fill="#5b6470">GTM tag: Meta Pixel - Lead &#8226; fires on the booking trigger</text>
+  <text x="838" y="624" font-size="14" fill="#16a34a" font-weight="600">This is the conversion Facebook counts</text>
+
+  <line x1="1095" y1="640" x2="1095" y2="664" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- step 5 -->
+  <rect x="760" y="666" width="670" height="122" rx="12" fill="#ffffff" stroke="#1877F2" stroke-width="2.5"/>
+  <circle cx="800" cy="724" r="20" fill="#1877F2"/>
+  <text x="800" y="731" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+  <text x="838" y="702" font-size="16" font-weight="700" fill="#0f1722">Facebook learns &amp; optimizes</text>
+  <text x="838" y="728" font-size="14" fill="#5b6470">Events Manager records the Lead against pixel 3666457663369172</text>
+  <text x="838" y="750" font-size="14" fill="#5b6470">The campaign starts finding more people likely to book &#8212;</text>
+  <text x="838" y="770" font-size="14" fill="#5b6470">not just people likely to click.</text>
+
+  <!-- loop note -->
+  <path d="M760,727 C720,727 720,216 800,216" fill="none" stroke="#1877F2" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+  <text x="700" y="475" font-size="12" fill="#1877F2" transform="rotate(-90 700 475)" text-anchor="middle">feeds back into ad delivery</text>
+
+  <!-- footer -->
+  <text x="50" y="828" font-size="13" fill="#94a3b8">Built tags live in GTM (staged, awaiting publish): Meta Pixel - Base (PageView) &amp; Meta Pixel - Lead (booking).</text>
+  <text x="50" y="850" font-size="13" fill="#94a3b8">Campaign-level names/budgets shown generically &#8212; live Meta data was unavailable at render time.</text>
+</svg>
